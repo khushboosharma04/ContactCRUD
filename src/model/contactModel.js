@@ -1,33 +1,13 @@
-// const mongoose = require("mongoose");
-
-// const contactSchema = mongoose.Schema(
-//   {
-//     _id: {
-//       type: Number,
-//     },
-//     name: {
-//       type: String,
-//       required: [true, "Please add your name"],
-//     },
-//     email: {
-//       type: String,
-//       required: [true, "Please add your email"],
-//     },
-//     phone: {
-//       type: String,
-//       required: [true, "Please add your phone number"],
-//     },
-//   },
-//   {
-//     timestamps: true,
-//   }
-// );
-// module.exports = mongoose.model("Contact", contactSchema);
-const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = new Sequelize("contactdb", "admin", "mysql123", {
-  host: "database-1.cxw40ieoe5ws.ap-south-1.rds.amazonaws.com",
-  dialect: "mysql",
-});
+const sequelize = new Sequelize(
+  process.env.RDS_DBNAME,
+  process.env.RDS_USERNAME,
+  process.env.RDS_PASSWORD,
+  {
+    host: process.env.RDS_HOSTNAME,
+    dialect: process.env.DIALECT,
+    port: process.env.RDS_MYSQL_PORT,
+  }
+);
 
 const Contact = sequelize.define("Contact", {
   id: {

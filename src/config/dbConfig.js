@@ -1,5 +1,4 @@
 require("dotenv").config();
-// const mongoose = require("mongoose");
 const mysql = require("mysql");
 const Contact = require("../model/contactModel");
 const { Sequelize } = require("sequelize");
