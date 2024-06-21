@@ -24,7 +24,7 @@ const createContact = asyncHandler(async (req, res) => {
   validateContactData(req.body, res);
 
   const newContact = await Contact.create({
-    _id: id,
+    id: id,
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
@@ -76,7 +76,7 @@ const updateContactById = asyncHandler(async (req, res) => {
   };
 
   const updatedContact = await Contact.findOneAndUpdate(
-    { _id: id },
+    { id: id },
     { $set: updateFields },
     { new: true }
   );
@@ -96,7 +96,7 @@ const deleteContactById = asyncHandler(async (req, res) => {
 
   await validateContactWithIdExists(id, res);
 
-  const isDeleted = await Contact.deleteOne({ _id: id });
+  const isDeleted = await Contact.deleteOne({ id: id });
 
   if (isDeleted.acknowledged === true && isDeleted.deletedCount === 1) {
     return res.status(200).json({
