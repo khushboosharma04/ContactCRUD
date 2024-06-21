@@ -29,7 +29,7 @@ const sequelize = new Sequelize("contactdb", "admin", "mysql123", {
   dialect: "mysql",
 });
 
-const Contact = sequelize.define("Contact", {
+const Contact = sequelize.define("CONTACT", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
