@@ -7,7 +7,7 @@ const connectDb = async () => {
     host: "database-1.cxw40ieoe5ws.ap-south-1.rds.amazonaws.com",
     user: "admin",
     password: "mysql123",
-    database: "database-1",
+    port: "3306",
   });
 
   connection.connect((err) => {
