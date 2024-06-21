@@ -37,7 +37,7 @@ const createContact = asyncHandler(async (req, res) => {
 const getContacts = asyncHandler(async (req, res) => {
   console.log("Received GET request to list all contacts that are present");
 
-  const contacts = await Contact.find();
+  const contacts = await Contact.findAll();
 
   await validateNoContactsFound(contacts, res);
 
