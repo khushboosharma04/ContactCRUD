@@ -65,28 +65,35 @@ const updateContactById = asyncHandler(async (req, res) => {
   const id = req.params.id;
   console.log("Received PUT request for contact with ID:", id);
 
-  validateId(res, id);
-  validateRequestBodyNotEmpty(req, res);
-  await validateContactWithIdExists(id, res);
+  try {
+    validateId(res, id);
+    validateRequestBodyNotEmpty(req, res);
+    await validateContactWithIdExists(id, res);
 
-  // Validate the request body using the validateContactData function
-  validateContactData(req.body, res, true);
-  const updateFields = {
-    ...req.body,
-  };
+    // Validate the request body using the validateContactData function
+    validateContactData(req.body, res, true);
 
-  const updatedContact = await Contact.findOneAndUpdate(
-    { id: id },
-    { $set: updateFields },
-    { new: true }
-  );
+    const updateFields = {
+      ...req.body,
+    };
+    const [updatedRowsCount, updatedRows] = await Contact.update(updateFields, {
+      where: { id: id },
+      returning: true,
+    });
 
-  return res.status(200).json({
-    updatedContact,
-    message: "Contact updated successfully!",
-  });
+    if (updatedRowsCount === 0) {
+      return res.status(404).json({ message: "Contact not found" });
+    }
+
+    return res.status(200).json({
+      updatedContact: updatedRows[0],
+      message: "Contact updated successfully!",
+    });
+  } catch (error) {
+    console.error("Error updating contact:", error);
+    return res.status(500).json({ message: "Error updating contact" });
+  }
 });
-
 // Method to delete contact by id
 const deleteContactById = asyncHandler(async (req, res) => {
   const id = req.params.id;
@@ -96,9 +103,11 @@ const deleteContactById = asyncHandler(async (req, res) => {
 
   await validateContactWithIdExists(id, res);
 
-  const isDeleted = await Contact.deleteOne({ id: id });
+  const isDeleted = await Contact.destroy({
+    where: { id: id },
+  });
 
-  if (isDeleted.acknowledged === true && isDeleted.deletedCount === 1) {
+  if (isDeleted === 1) {
     return res.status(200).json({
       message: `Contact deleted with ID: ${id}`,
     });

@@ -23,7 +23,7 @@ function validateRequestBodyNotEmpty(req, res) {
 }
 
 async function validateContactWithIdExists(id, res) {
-  if (!(await Contact.findById(id))) {
+  if (!(await Contact.findByPk(id))) {
     res.status(404);
     throw new Error("Contact with this ID does not exist.");
   }
