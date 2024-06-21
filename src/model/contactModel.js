@@ -24,7 +24,7 @@
 // );
 // module.exports = mongoose.model("Contact", contactSchema);
 const { Sequelize, DataTypes } = require("sequelize");
-const sequelize = new Sequelize("database", "username", "password", {
+const sequelize = new Sequelize("contactdb", "admin", "mysql123", {
   host: "database-1.cxw40ieoe5ws.ap-south-1.rds.amazonaws.com",
   dialect: "mysql",
 });
