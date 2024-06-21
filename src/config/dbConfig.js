@@ -8,6 +8,7 @@ const connectDb = async () => {
     user: "admin",
     password: "mysql123",
     port: "3306",
+    database: "contactdb",
   });
 
   connection.connect((err) => {
