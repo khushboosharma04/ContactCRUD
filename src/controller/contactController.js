@@ -54,7 +54,7 @@ const getContactById = asyncHandler(async (req, res, next) => {
 
   validateId(res, id);
 
-  const contact = await Contact.findById({ id });
+  const contact = await Contact.findByPk(id);
   validateContactExistence(contact, res);
 
   return res.status(200).json(contact);
