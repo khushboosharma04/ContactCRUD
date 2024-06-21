@@ -7,6 +7,7 @@ const { Sequelize } = require("sequelize");
 const sequelize = new Sequelize("contactdb", "admin", "mysql123", {
   host: "database-1.cxw40ieoe5ws.ap-south-1.rds.amazonaws.com",
   dialect: "mysql",
+  port: 3306,
 });
 
 // Syncs model with database (create table if not exists)
