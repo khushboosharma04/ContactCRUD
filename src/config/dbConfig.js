@@ -1,25 +1,46 @@
 require("dotenv").config();
 // const mongoose = require("mongoose");
 const mysql = require("mysql");
+const Contact = require("../model/contactModel");
+const { Sequelize } = require("sequelize");
 
-const connectDb = async () => {
-  const connection = mysql.createConnection({
-    host: "database-1.cxw40ieoe5ws.ap-south-1.rds.amazonaws.com",
-    user: "admin",
-    password: "mysql123",
-    port: "3306",
-    database: "contactdb",
-  });
+const sequelize = new Sequelize("contactdb", "admin", "mysql123", {
+  host: "database-1.cxw40ieoe5ws.ap-south-1.rds.amazonaws.com",
+  dialect: "mysql",
+});
 
-  connection.connect((err) => {
-    if (err) {
-      console.error("Error connecting to the database:", err.stack);
-      return;
-    }
-    console.log("Connected to the database.");
-  });
-};
-module.exports = connectDb;
+// Syncs model with database (create table if not exists)
+async function syncDatabase() {
+  try {
+    await sequelize.authenticate();
+    console.log("Connection has been established successfully.");
+
+    await Contact.sync({ alter: true }); // Sync Contact model with database
+    console.log("Contact model synchronized successfully.");
+  } catch (error) {
+    console.error("Unable to connect to the database:", error);
+  }
+}
+
+module.exports = syncDatabase;
+
+// const connectDb = async () => {
+//   const connection = mysql.createConnection({
+//     host: "database-1.cxw40ieoe5ws.ap-south-1.rds.amazonaws.com",
+//     user: "admin",
+//     password: "mysql123",
+//     port: "3306",
+//     database: "contactdb",
+//   });
+
+//   connection.connect((err) => {
+//     if (err) {
+//       console.error("Error connecting to the database:", err.stack);
+//       return;
+//     }
+//     console.log("Connected to the database.");
+//   });
+// };
 
 // const connectDb = async () => {
 //   try {
